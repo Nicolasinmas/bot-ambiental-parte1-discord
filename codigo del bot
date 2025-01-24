@@ -21,4 +21,25 @@ async def img(ctx):
         await ctx.send(file=picture)
 
 
+@bot.command()
+async def buscar(ctx, *, q=''):
+    lista = ['manualidades con objetos reciclables',
+             'Cómo evitar la contaminación ambiental',
+             'Cómo cuidar el medio ambiente desde casa',
+             'Importancia de cuidar los océanos',]
+    q = random.choice(lista)
+    resultado = youtube.search().list(
+        q = q,
+        part="snippet",
+        type="video",
+        maxResults=5
+    ).execute()
+
+    video = random.choice(resultado["items"])
+    titulo = video["snippet"]["title"]
+    video_id = video["id"]["videoId"]
+    url = f"https://www.youtube.com/watch?v={video_id}"
+
+    await ctx.send(f"Título: {titulo}\nURL: {url}")
+
 bot.run("token bot")
